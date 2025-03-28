@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+
+import hashlib
+import os
+from getpass import getpass
+
+
+def generate_pbkdf2_hash(password, salt=None, iterations=10000):
+    if salt is None:
+        salt = os.urandom(16).hex()  # Générer un sel aléatoire si non fourni
+    else:
+        salt = bytes.fromhex(salt)  # Convertir le sel hexadécimal en bytes
+
+    # Générer le hash PBKDF2
+    hash_value = hashlib.pbkdf2_hmac('sha512', password.encode(), salt, iterations)
+    return salt.hex(), hash_value.hex()
+
+password = getpass("Enter password (not displayed) : ")
+grub_password = input("Enter GRUB2 encrypted password: ").split(".")
+
+salt = grub_password[4]
+grub_hash = grub_password[5]
+
+
+
+hash_value = generate_pbkdf2_hash(password, salt)[1].upper()
+
+print()
+print(f"Salt: {salt}")
+print(f"Hash     : {hash_value}")
+print(f"Grub Hash: {grub_hash}")
