@@ -27,6 +27,6 @@ grub_hash = grub_password[5]
 hash_value = generate_pbkdf2_hash(password, salt)[1].upper()
 
 print()
-print(f"Salt: {salt}")
-print(f"Hash     : {hash_value}")
+print(f"Grub salt: {salt}")
 print(f"Grub Hash: {grub_hash}")
+print(f"Hash     : {hash_value}")
